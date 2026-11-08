@@ -1,0 +1,19 @@
+crm:
+  monitor:
+    planificador-activo: false
+    intervalo-ms: 60000
+    timeout-ms: 1000
+    umbral-degradado-ms: 500
+    servicios:
+      - servicio: vehiculos
+        nombre-mostrar: Microservicio de Vehículos
+        url-base: http://localhost:18083
+        ruta-salud: /actuator/health
+        ruta-alternativa: /v3/api-docs
+        tipo-verificacion: ACTUATOR_HEALTH
+      - servicio: clientes
+        nombre-mostrar: Microservicio de Clientes
+        url-base: http://localhost:18082
+        ruta-salud: /actuator/health
+        ruta-alternativa: /v3/api-docs
+        tipo-verificacion: ACTUATOR_HEALTH

@@ -1,0 +1,76 @@
+server:
+  port: ${PORT:8085}
+
+spring:
+  application:
+    name: monitor-service
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:monitor_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER:org.h2.Driver}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+
+# Configuración del Monitor de Salud del Ecosistema CRM
+crm:
+  monitor:
+    planificador-activo: ${MONITOR_PLANIFICADOR_ACTIVO:true}
+    intervalo-ms: ${MONITOR_INTERVALO_MS:15000}
+    timeout-ms: ${MONITOR_TIMEOUT_MS:3000}
+    umbral-degradado-ms: ${MONITOR_UMBRAL_DEGRADADO_MS:1000}
+    limite-historial-por-defecto: 50
+    servicios:
+      - servicio: vehiculos
+        nombre-mostrar: Microservicio de Vehículos
+        url-base: ${VEHICULOS_SERVICE_URL:http://localhost:8083}
+        ruta-salud: /actuator/health
+        ruta-alternativa: /v3/api-docs
+        tipo-verificacion: ACTUATOR_HEALTH
+      - servicio: clientes
+        nombre-mostrar: Microservicio de Clientes
+        url-base: ${CLIENTES_SERVICE_URL:http://localhost:8082}
+        ruta-salud: /actuator/health
+        ruta-alternativa: /v3/api-docs
+        tipo-verificacion: ACTUATOR_HEALTH
+      - servicio: leads
+        nombre-mostrar: Microservicio de Leads
+        url-base: ${LEADS_SERVICE_URL:http://localhost:8000}
+        ruta-salud: /health
+        ruta-alternativa: /openapi.json
+        tipo-verificacion: ACTUATOR_HEALTH
+      - servicio: calificacion
+        nombre-mostrar: Microservicio de Calificación
+        url-base: ${CALIFICACION_SERVICE_URL:http://localhost:8084}
+        ruta-salud: /actuator/health
+        ruta-alternativa: /v3/api-docs
+        tipo-verificacion: ACTUATOR_HEALTH

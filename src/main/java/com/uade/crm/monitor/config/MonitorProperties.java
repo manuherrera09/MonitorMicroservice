@@ -15,6 +15,9 @@ public class MonitorProperties {
     private boolean planificadorActivo = true;
     private long intervaloMs = 15000L;
     private long timeoutMs = 3000L;
+    private long despertarTimeoutMs = 15000L;
+    private int despertarReintentos = 3;
+    private long despertarEsperaEntreIntentosMs = 2000L;
     private long umbralDegradadoMs = 1000L;
     private int limiteHistorialPorDefecto = 50;
     private List<ServicioConfig> servicios = new ArrayList<>();

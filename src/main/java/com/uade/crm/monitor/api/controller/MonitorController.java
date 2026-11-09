@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/monitor")
 @RequiredArgsConstructor
-@Tag(name = "Monitor", description = "Endpoints para consulta de salud, latencia e historial de los microservicios")
+@Tag(name = "Monitor", description = "Endpoints para consulta de salud, reactivación (wake-up), latencia e historial de los microservicios")
 public class MonitorController {
 
     private final MonitorFacade monitorFacade;
@@ -71,8 +71,8 @@ public class MonitorController {
     }
 
     @Operation(
-            summary = "Ejecutar verificación inmediata de salud",
-            description = "Fuerza un chequeo inmediato de todos los microservicios (o de uno en particular si se indica el parámetro `servicio`)."
+            summary = "Ejecutar verificación inmediata de salud (Ping)",
+            description = "Fuerza un chequeo inmediato en paralelo de todos los microservicios (o de uno en particular si se indica el parámetro `servicio`)."
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Verificación ejecutada exitosamente")
@@ -89,6 +89,26 @@ public class MonitorController {
             resultados = monitorFacade.verificarTodos();
         }
 
+        List<EstadoServicioResponse> response = resultados.stream()
+                .map(this::toResponse)
+                .toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(
+            summary = "Despertar / Reactivar microservicios inactivos (Wake-up Ping)",
+            description = "Envía pings en paralelo con timeout extendido y reintentos automáticos a todos los microservicios (o a uno específico) para despertar instancias hibernadas (cold start en Render/Cloud) y retorna su nuevo estado."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Proceso de reactivación y sondeo completado")
+    })
+    @PostMapping("/despertar")
+    public ResponseEntity<List<EstadoServicioResponse>> despertarServicios(
+            @Parameter(description = "Nombre del servicio específico a despertar (opcional)", example = "clientes")
+            @RequestParam(name = "servicio", required = false) String servicio) {
+
+        List<ResultadoVerificacion> resultados = monitorFacade.despertarServicios(servicio);
         List<EstadoServicioResponse> response = resultados.stream()
                 .map(this::toResponse)
                 .toList();

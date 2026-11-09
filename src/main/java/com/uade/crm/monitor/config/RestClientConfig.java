@@ -25,4 +25,18 @@ public class RestClientConfig {
                 .requestFactory(factory)
                 .build();
     }
+
+    @Bean
+    public RestClient wakeUpRestClient() {
+        long wakeUpTimeoutMs = monitorProperties.getDespertarTimeoutMs() > 0
+                ? monitorProperties.getDespertarTimeoutMs()
+                : 15000L;
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(Duration.ofMillis(wakeUpTimeoutMs));
+        factory.setReadTimeout(Duration.ofMillis(wakeUpTimeoutMs));
+
+        return RestClient.builder()
+                .requestFactory(factory)
+                .build();
+    }
 }

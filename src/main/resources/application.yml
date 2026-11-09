@@ -47,6 +47,9 @@ crm:
     planificador-activo: ${MONITOR_PLANIFICADOR_ACTIVO:true}
     intervalo-ms: ${MONITOR_INTERVALO_MS:15000}
     timeout-ms: ${MONITOR_TIMEOUT_MS:3000}
+    despertar-timeout-ms: ${MONITOR_DESPERTAR_TIMEOUT_MS:15000}
+    despertar-reintentos: ${MONITOR_DESPERTAR_REINTENTOS:3}
+    despertar-espera-entre-intentos-ms: ${MONITOR_DESPERTAR_ESPERA_MS:2000}
     umbral-degradado-ms: ${MONITOR_UMBRAL_DEGRADADO_MS:1000}
     limite-historial-por-defecto: 50
     servicios:

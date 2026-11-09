@@ -21,14 +21,24 @@ import java.util.concurrent.TimeUnit;
 public class RestClientSaludAdapter implements ClienteHttpSaludPort {
 
     private final RestClient monitorRestClient;
+    private final RestClient wakeUpRestClient;
 
     @Override
     public RespuestaSondeoHttp sondearGet(String urlBase, String ruta) {
+        return ejecutarSondeo(monitorRestClient, urlBase, ruta);
+    }
+
+    @Override
+    public RespuestaSondeoHttp sondearWakeUpGet(String urlBase, String ruta) {
+        return ejecutarSondeo(wakeUpRestClient, urlBase, ruta);
+    }
+
+    private RespuestaSondeoHttp ejecutarSondeo(RestClient client, String urlBase, String ruta) {
         String urlCompleta = construirUrl(urlBase, ruta);
         long inicioNano = System.nanoTime();
 
         try {
-            ResponseEntity<String> response = monitorRestClient.get()
+            ResponseEntity<String> response = client.get()
                     .uri(urlCompleta)
                     .retrieve()
                     .toEntity(String.class);

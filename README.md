@@ -221,7 +221,8 @@ Para cada microservicio monitoreado, el servicio evalúa:
 |---|---|---|
 | `GET` | `/monitor/estado` | Devuelve la lista de microservicios con su estado vigente (`UP`, `DEGRADADO`, `DOWN`), latencia en ms, fecha de última verificación y detalle. Acepta `?forzar=true` para ejecutar un sondeo en vivo antes de responder. |
 | `GET` | `/monitor/historial` | Devuelve las últimas verificaciones registradas en orden cronológico inverso. Acepta `?servicio=vehiculos` (opcional) y `?limite=50` (opcional). |
-| `POST` | `/monitor/verificar` | Fuerza una verificación inmediata de todos los servicios (o de uno específico con `?servicio=calificacion`) y devuelve el resultado. |
+| `POST` | `/monitor/verificar` | Fuerza una verificación inmediata en paralelo de todos los servicios (o de uno específico con `?servicio=calificacion`) y devuelve el resultado. |
+| `POST` | `/monitor/despertar` | Envía pings en paralelo con timeout extendido y reintentos automáticos a todos los servicios (o a uno específico con `?servicio=clientes`) para despertar contenedores inactivos/hibernados (cold start en Render) y devuelve el estado resultante. |
 | `GET` | `/monitor/resumen` | Devuelve métricas agregadas del ecosistema (`estadoGlobal`, total de servicios `UP`/`DEGRADADO`/`DOWN` y latencia promedio). |
 | `GET` | `/actuator/health` | Endpoint de salud propio del microservicio Monitor. |
 | `GET` | `/swagger-ui.html` | Interfaz interactiva Swagger UI. |

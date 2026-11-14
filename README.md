@@ -310,11 +310,13 @@ Otras variables de configuración:
 Para ejecutar la suite de pruebas unitarias (verifica los patrones **Strategy**, **Composite**, **Factory**, **Facade** y **Observer**):
 
 ```bash
-mvn test
+./mvnw test                # Windows: mvnw.cmd test
 ```
 
 Para iniciar el microservicio localmente en el puerto `8085`:
 
 ```bash
-mvn spring-boot:run
+./mvnw spring-boot:run     # Windows: mvnw.cmd spring-boot:run
 ```
+
+El repo trae el **Maven Wrapper** (`mvnw`): no hace falta tener Maven instalado, solo JDK 21. La primera vez descarga Maven 3.9.16 (verificando su SHA-256) en `~/.m2/wrapper`. La versión se define en `.mvn/wrapper/maven-wrapper.properties`.

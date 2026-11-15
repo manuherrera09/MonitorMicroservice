@@ -77,3 +77,24 @@ crm:
         ruta-salud: /actuator/health
         ruta-alternativa: /v3/api-docs
         tipo-verificacion: ACTUATOR_HEALTH
+      # El orquestador (API Gateway). Su /health informa el estado de la base y de Kafka;
+      # si alguna está caída lo reporta con "DOWN" y el monitor lo marca como DOWN.
+      - servicio: orquestador
+        nombre-mostrar: Orquestador (API Gateway)
+        url-base: ${ORQUESTADOR_SERVICE_URL:http://localhost:8080}
+        ruta-salud: /health
+        ruta-alternativa: /openapi.json
+        tipo-verificacion: ACTUATOR_HEALTH
+      # ia-resumen (FastAPI) no tiene /health: se verifica que responda su documentación.
+      - servicio: ia-resumen
+        nombre-mostrar: Microservicio de Resumen con IA
+        url-base: ${IA_RESUMEN_SERVICE_URL:http://localhost:8001}
+        ruta-salud: /openapi.json
+        ruta-alternativa: /docs
+        tipo-verificacion: HTTP_DISPONIBILIDAD
+      - servicio: auth
+        nombre-mostrar: Microservicio de Autenticación
+        url-base: ${AUTH_SERVICE_URL:http://localhost:8086}
+        ruta-salud: /health
+        ruta-alternativa: /openapi.json
+        tipo-verificacion: ACTUATOR_HEALTH

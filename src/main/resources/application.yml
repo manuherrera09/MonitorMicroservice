@@ -92,6 +92,13 @@ crm:
         ruta-salud: /openapi.json
         ruta-alternativa: /docs
         tipo-verificacion: HTTP_DISPONIBILIDAD
+      # multas (InfraccionScrapper, Node): atiende comandos por Kafka y expone solo /health.
+      - servicio: multas
+        nombre-mostrar: Microservicio de Multas (scraper)
+        url-base: ${MULTAS_SERVICE_URL:http://localhost:8087}
+        ruta-salud: /health
+        ruta-alternativa: /health
+        tipo-verificacion: ACTUATOR_HEALTH
       - servicio: auth
         nombre-mostrar: Microservicio de Autenticación
         url-base: ${AUTH_SERVICE_URL:http://localhost:8086}

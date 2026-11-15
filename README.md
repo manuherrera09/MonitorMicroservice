@@ -298,6 +298,7 @@ Configurables en `src/main/resources/application.yml` o mediante variables de en
 | `orquestador` | `ORQUESTADOR_SERVICE_URL` | `http://localhost:8080` | `/health` | `/openapi.json` |
 | `ia-resumen` | `IA_RESUMEN_SERVICE_URL` | `http://localhost:8001` | `/openapi.json` | `/docs` |
 | `auth` | `AUTH_SERVICE_URL` | `http://localhost:8086` | `/health` | `/openapi.json` |
+| `multas` | `MULTAS_SERVICE_URL` | `http://localhost:8087` | `/health` | `/health` |
 
 Otras variables de configuración:
 - `PORT`: Puerto del servidor (por defecto `8085`).
